@@ -13,9 +13,11 @@ class F():
         return 'btcusdt'
 coin = F()
 
+
 class floatBroker(broker.backtesting.Broker):
     def getInstrumentTraits(self, instrument):
         return common.BTCTraits()
+
 
 class MyStrategy(strategy.BacktestingStrategy):
     def __init__(self, feed, instrument, brk):
@@ -92,10 +94,10 @@ def run_strategy():
 
     # Attach the plotter to the strategy.
     plt = plotter.StrategyPlotter(myStrategy)
-    # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
-    plt.getInstrumentSubplot(coin).addDataSeries("SMA60", myStrategy.getSMA(60))
-    plt.getInstrumentSubplot(coin).addDataSeries("SMA10", myStrategy.getSMA(10))
-    plt.getInstrumentSubplot(coin).addDataSeries("SMA30", myStrategy.getSMA(30))
+    # # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
+    # plt.getInstrumentSubplot(coin).addDataSeries("SMA60", myStrategy.getSMA(60))
+    # plt.getInstrumentSubplot(coin).addDataSeries("SMA10", myStrategy.getSMA(10))
+    # plt.getInstrumentSubplot(coin).addDataSeries("SMA30", myStrategy.getSMA(30))
     # Plot the simple returns on each bar.
     plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
     
@@ -106,6 +108,10 @@ def run_strategy():
 
     # Plot the strategy.
     plt.plot()
+    plt.show()
+    running_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+    plt.savefig(running_time +".jpg")
+
 
 run_strategy()
 
